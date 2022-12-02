@@ -1,7 +1,7 @@
 # Project Portfolio
 # Author: Tony Chan
 # GitHub username: Luckygoldjade
-# Date: 11/29/22
+# Date: 12/2/22
 # Description: Mancala game.
 #
 #
@@ -42,7 +42,7 @@ class Mancala:
                             cannot access Mancala methods and members
     """
     def __init__(self):
-        self._board_lst = [2, 2, 0, 2, 10, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+        self._board_lst = [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 2, 0]
         self._player_1_board_lst = [1, 2, 3, 4, 5, 6]       # constant
         self._player_2_board_lst = [8, 9, 10, 11, 12, 13]   # constant
         self._player_1_store_num = 7                        # constant
@@ -78,16 +78,16 @@ class Mancala:
         print("player1:")
         print("store:", self._board_lst[self._player_1_store_num-1])
         # print player 1 pit 1 to 6
-        for pit_cnt1 in range(0, 6):
-            player_1_pits_lst.append(self._board_lst[pit_cnt1])
+        for pit_cnt1 in range(1, 7):
+            player_1_pits_lst.append(self._board_lst[pit_cnt1-1])
 
         print(player_1_pits_lst)
 
         print("player2:")
         print("store:", self._board_lst[self._player_2_store_num-1])
         # print player 2 pit 8 to 13
-        for pit_cnt1 in range(7, 13):
-            player_2_pits_lst.append(self._board_lst[pit_cnt1])
+        for pit_cnt1 in range(8, 14):
+            player_2_pits_lst.append(self._board_lst[pit_cnt1-1])
 
         print(player_2_pits_lst)
 
@@ -121,158 +121,186 @@ class Mancala:
                     last task for turn to be done then return one list of pits for both players
         """
 
-        is_game_over = False
-        # 1 for player 1, 2 for player 2
 
         # check for valid pit index number
-        if pos > 6 and pos <= 0:
+        if pos > 6 or pos <= 0:
             return "Invalid number for pit index"
 
 
-
-
+        if player_index_num == 2:
+            pos = pos + 7
 
         next_pit_num = pos
         next_pit_num += 1
-        self.play_game_rec(player_index_num, next_pit_num, pos)
+        return self.play_game_rec(player_index_num, next_pit_num, pos)
 
 # --
     def play_game_rec(self, player_index_num, next_pit_num, pos):
         """
         helper for play game
         """
-        if next_pit_num >= 15:
+        if next_pit_num > 14:
             next_pit_num = 1
 
         # --
+        # game over when one player pits are all empty
+        # check both players
+        player_1_all_pits_empty = True
+        for pit_cnt1 in range(1, 7):
+            if self._board_lst[pit_cnt1-1] != 0:
+                player_1_all_pits_empty = False
+
+        player_2_all_pits_empty = True
+        for pit_cnt1 in range(8, 14):
+            if self._board_lst[pit_cnt1-1] != 0:
+                player_2_all_pits_empty = False
+
+        if player_1_all_pits_empty == True or player_2_all_pits_empty == True:
+            return "Game is ended"
+
+
+        # player 1
         if player_index_num == 1:
-            # skip player 2 store
-            skip_store_num = self._player_2_store_num
-        else:
-            # skip player 1 store
-            skip_store_num = self._player_1_store_num
-
-        # --
-        # seed count != 1 (Not last seed and 0 seed) start
-        if self._board_lst[pos-1] > 1:
-            if next_pit_num == skip_store_num:
-                next_pit_num += 1
-            # board index is always [pos-1]
-            self._board_lst[pos-1] -= 1
-            self._board_lst[next_pit_num-1] += 1
-        # seed count != 1 (Not last seed) end
+            # --
+            # seed count != 1 (Not last seed and 0 seed) start
+            if self._board_lst[pos-1] > 1:
+                if next_pit_num == 14:                          # p1 skips p2 store
+                    next_pit_num = 1
+                # board index is always [pos-1]
+                self._board_lst[pos-1] -= 1
+                self._board_lst[next_pit_num-1] += 1
+            # seed count != 1 (Not last seed) end
 
 
 
-        # seed count = 1 (last seed) start
-        elif self._board_lst[pos-1] == 1:
-            if next_pit_num == self._player_1_store_num:                   # player 1 store
-                # Special rule 1
-                if next_pit_num == skip_store_num:
-                    next_pit_num += 1
-                # board index is always pos-1
-                self._board_lst[pos - 1] -= 1
-                self._board_lst[next_pit_num - 1] += 1
-                print("player 1 take another turn")
+            # seed count = 1 (last seed) start
+            elif self._board_lst[pos-1] == 1:
+                if next_pit_num == self._player_1_store_num:    # player 1 store
+                    # Special rule 1
+                    if next_pit_num == 14:                      # p1 skips p2 store
+                        next_pit_num = 1
+                    # board index is always pos-1
+                    self._board_lst[pos - 1] -= 1
+                    self._board_lst[next_pit_num - 1] += 1
+                    print("player 1 take another turn")
+                    return
+
+                elif next_pit_num in self._player_1_board_lst:  # player 1 pits
+                    if self._board_lst[next_pit_num - 1] == 0:
+                        # Special rule 2
+                        # add opponent's opposite pit to your store
+                        self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
+                                                                    self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num+2)]
+                        # empty opponent's opposite pit
+                        self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num+2)] = 0
+
+                        # add last seed to your store not to pit
+                        self._board_lst[pos - 1] -= 1
+                        self._board_lst[self._player_1_store_num - 1] += 1
+
+
+
+                        return
+                    elif self._board_lst[next_pit_num - 1] >= 1:
+                        if next_pit_num == 14:                  # p1 skips p2 store
+                            next_pit_num = 1
+                        # board index is always pos-1
+                        self._board_lst[pos - 1] -= 1
+                        self._board_lst[next_pit_num - 1] += 1
+                        return
+
+
+                elif next_pit_num in self._player_2_board_lst or \
+                        next_pit_num == self._player_2_store_num:   # player 2 pits and store
+                    #if self._board_lst[next_pit_num - 1] >= 1:
+                    if next_pit_num == 14:                      # p1 skips p2 store
+                        next_pit_num = 1
+                    # board index is always pos-1
+                    self._board_lst[pos - 1] -= 1
+                    self._board_lst[next_pit_num - 1] += 1
+                    return
+
+            # seed count = 1 (last seed) end
+
+
+            # seed count <= 0 (0 seed) start
+            elif self._board_lst[pos-1] <= 0:
+                # do nothing. get next turn
                 return
 
-            elif next_pit_num in self._player_1_board_lst:      # player 1 pits
-                if self._board_lst[next_pit_num - 1] == 0:
-                    # Special rule 2
-                    print(True)
-                    # add opponent's opposite pit to your store
-                    self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
-                                                                self._board_lst[self.opposite_pit_num(next_pit_num+2)]
-                    # empty opponent's opposite pit
-                    self._board_lst[self.opposite_pit_num(next_pit_num+2)] = 0
+            # seed count <= 0 (0 seed) end
 
-                    # add last seed to your store not to pit
+        # player 2
+        if player_index_num == 2:
+            # --
+            # seed count != 1 (Not last seed and 0 seed) start
+            if self._board_lst[pos - 1] > 1:
+                if next_pit_num == 7:                       # p2 skips p1 store
+                    next_pit_num += 1
+                # board index is always [pos-1]
+                self._board_lst[pos - 1] -= 1
+                self._board_lst[next_pit_num - 1] += 1
+            # seed count != 1 (Not last seed) end
+
+            # seed count = 1 (last seed) start
+            elif self._board_lst[pos - 1] == 1:
+                if next_pit_num == self._player_2_store_num:  # player 2 store
+                    # Special rule 1
+                    if next_pit_num == 7:                   # p2 skips p1 store
+                        next_pit_num += 1
+                    # board index is always pos-1
                     self._board_lst[pos - 1] -= 1
-                    self._board_lst[self._player_1_store_num - 1] += 1
-
-
-
+                    self._board_lst[next_pit_num - 1] += 1
+                    print("player 2 take another turn")
                     return
-                elif self._board_lst[next_pit_num - 1] >= 1:
-                    if next_pit_num == skip_store_num:
+
+                elif next_pit_num in self._player_2_board_lst:  # player 2 pits
+                    if self._board_lst[next_pit_num - 1] == 0:
+                        # Special rule 2
+                        # add opponent's opposite pit to your store
+                        self._board_lst[self._player_2_store_num - 1] = self._board_lst[self._player_2_store_num - 1] + \
+                                                                        self._board_lst[
+                                                                            self.oppo_plyr_2_pit_num(next_pit_num + 2)]
+                        # empty opponent's opposite pit
+                        self._board_lst[self.oppo_plyr_2_pit_num(next_pit_num + 2)] = 0
+
+                        # add last seed to your store not to pit
+                        self._board_lst[pos - 1] -= 1
+                        self._board_lst[self._player_2_store_num - 1] += 1
+
+                        return
+                    elif self._board_lst[next_pit_num - 1] >= 1:
+                        if next_pit_num == 7:                      # p2 skips p1 store
+                            next_pit_num += 1
+                        # board index is always pos-1
+                        self._board_lst[pos - 1] -= 1
+                        self._board_lst[next_pit_num - 1] += 1
+                        return
+
+
+                elif next_pit_num in self._player_1_board_lst or \
+                        next_pit_num == self._player_1_store_num:  # player 1 pits and store
+                    # if self._board_lst[next_pit_num - 1] >= 1:
+                    if next_pit_num == 7:                          # p2 skips p1 store
                         next_pit_num += 1
                     # board index is always pos-1
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
                     return
 
+            # seed count = 1 (last seed) end
 
-            elif next_pit_num in self._player_2_board_lst or next_pit_num == self._player_2_store_num:    # player 2 pits and store
-                #if self._board_lst[next_pit_num - 1] >= 1:
-                if next_pit_num == skip_store_num:
-                    next_pit_num += 1
-                # board index is always pos-1
-                self._board_lst[pos - 1] -= 1
-                self._board_lst[next_pit_num - 1] += 1
+            # seed count <= 0 (0 seed) start
+            elif self._board_lst[pos - 1] <= 0:
+                # do nothing. get next turn
                 return
 
-        # seed count = 1 (last seed) end
-
-
-        # seed count <= 0 (0 seed) start
-        elif self._board_lst[pos-1] <= 0:
-            # do nothing. get next turn
-            return
-
-        # seed count <= 0 (0 seed) end
-
-
-
-
-
-
-            #
-            #     print("player 2 take another turn")
+            # seed count <= 0 (0 seed) end
 
         # --
         next_pit_num += 1
         self.play_game_rec(player_index_num, next_pit_num, pos)
 
-# --
-
-
-
-
-
-
-        
-        
-        # # Fix*** may need to also check even before starting
-        #
-        # # game over is check player pits are all empty
-        # # always check after move
-        # if player_index_num == 1:
-        #     player_1_all_pits_empty = True
-        #     for pit_cnt1 in range(0, 5):
-        #         if self._player_1_board_lst[pos] != 0:
-        #             player_1_all_pits_empty = False
-        #             return "Game is ended"
-        # else:
-        #     player_2_all_pits_empty = True
-        #     for pit_cnt1 in range(0, 5):
-        #         if self._player_2_board_lst[pos] != 0:
-        #             player_2_all_pits_empty = False
-        #             return "Game is ended"
-        #
-        #
-
-
-
-
-
-
-        # add up score
-        # always check after game over
-        #
-
-
-        # return 14 element list of board
-        # return self._board_lst
 
 # --
     def return_winner(self):
@@ -288,20 +316,43 @@ class Mancala:
                 No player has all their pits empty then return "Game has not ended"
         """
         # only if game over
+        # game has not ended. check both players
+        player_1_all_pits_empty = True
+        for pit_cnt1 in range(1, 7):
+            if self._board_lst[pit_cnt1-1] != 0:
+                player_1_all_pits_empty = False
 
-        # if game over then count score:
-        #     return "Winner is player 1: ", player's name'
-        #
-        #     return "Winner is player 2: ", player's name
-        #
-        # elif game is tie:
-        #     return "It's a tie"
-        #
-        # if game is not over:
-        #     return "Game has not ended"
+        player_2_all_pits_empty = True
+        for pit_cnt1 in range(8, 14):
+            if self._board_lst[pit_cnt1-1] != 0:
+                player_2_all_pits_empty = False
+
+        if player_1_all_pits_empty == False and player_2_all_pits_empty == False:
+            return "Game has not ended"
+
+
+        if player_1_all_pits_empty == True or player_2_all_pits_empty == True:
+            # add up all the seeds in pits and store for each player
+            player_1_score = 0
+            player_2_score = 0
+            for pit_cnt1 in range(1, 8):
+                player_1_score = player_1_score + self._board_lst[pit_cnt1-1]
+
+            for pit_cnt1 in range(8, 15):
+                player_2_score = player_2_score + self._board_lst[pit_cnt1-1]
+
+            if player_1_score > player_2_score:
+                return "Winner is player 1: "
+            elif player_1_score < player_2_score:
+                return "Winner is player 2: "
+            elif player_1_score == player_2_score:
+                return "It's a tie"
+
+
+
 
 # --
-    def opposite_pit_num(self, player1_pit_num):
+    def oppo_plyr_1_pit_num(self, player1_pit_num):
         """
         Purpose: Get player 2 pit number opposite to Player 1 pit number
         parameter: receives player 1 pit number
@@ -323,6 +374,25 @@ class Mancala:
 
 
 # --
+    def oppo_plyr_2_pit_num(self, player2_pit_num):
+        """
+        Purpose: Get player 2 pit number opposite to Player 1 pit number
+        parameter: receives player 1 pit number
+        returns: player 2 pit number opposite to player 1 pit number
+        """
+        # p1 pit6 -> p2 pit1
+        if player2_pit_num == 1:        # p2 pit 8
+            return 6
+        elif player2_pit_num == 2:
+            return 5
+        elif player2_pit_num == 3:
+            return 4
+        elif player2_pit_num == 4:
+            return 3
+        elif player2_pit_num == 5:
+            return 2
+        elif player2_pit_num == 6:
+            return 1
 
 
 
@@ -393,55 +463,178 @@ def main():
     game.print_board()
     game.print_class_Mancala()
 
-    # p1 SR 1
+    #plyr1 default
+    #[2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(1, 2))
+    # game.print_board()
+
+
+
+
+
+    # plyr1 SR 1
     # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
     # game.play_game(1, 6)
     # game.play_game(1, 6)
     # game.print_board()
     # game.print_class_Mancala()
 
-    # p1 SR 1
+    # plyr1 SR 1
     # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
     # game.play_game(1, 5)
     # game.print_board()
     # game.print_class_Mancala()
 
-    # p1 select empty pit
+    # plyr1 select empty pit
     # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
     # game.play_game(1, 3)
     # game.print_board()
     # game.print_class_Mancala()
 
 
-    # p1 SR 2
+    # plyr1 SR 2
     # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
     # game.play_game(1, 1)
     # game.play_game(1, 1)
     # game.print_board()
     # game.print_class_Mancala()
 
+    # plyr1 SR 2
+    # plyr1 wrap around to p2 12 pits + 1 store
+    # [2, 2, 0, 2, 11, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
 
-    # p1 add seeds to p2 pits
+
+
+
+    # plyr1 add seeds to p2 pits
     # [2, 2, 0, 2, 4, 1, 0, 2, 2, 2, 2, 2, 2, 0]
     # game.play_game(1, 5)
     # game.print_board()
     # game.print_class_Mancala()
 
-    # p1 wrap around to p2 12 pits + 1 store
+    # plyr1 wrap around to p2 12 pits + 1 store
     # [2, 2, 0, 2, 10, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    game.play_game(1, 5)
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr1 game over
+    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(1, 3))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr1 invalid pit num
+    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(1, 9))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 game has not ended
+    # [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+    # [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
+    # print(game.return_winner())
+    # game.print_board()
+
+
+
+    # =======
+
+
+    # --
+    #plyr2 default
+    #[2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(2, 5))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr2 SR 1
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 1, 0]
+    game.play_game(2, 6)
+    game.play_game(2, 6)
     game.print_board()
     game.print_class_Mancala()
 
+    # plyr1 SR 1
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
 
-    # last select seed to p2 pits
+    # plyr1 select empty pit
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 3)
+    # game.print_board()
+    # game.print_class_Mancala()
 
-    #player2 = game.create_player("Lucy")
-    # test SR 2
-    #print(game.play_game(1, 3))
-    #game.print_class_Mancala()
+
+    # plyr1 SR 2
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 1)
+    # game.play_game(1, 1)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 SR 2
+    # plyr1 wrap around to p2 12 pits + 1 store
+    # [2, 2, 0, 2, 11, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
 
 
+
+
+    # plyr1 add seeds to p2 pits
+    # [2, 2, 0, 2, 4, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 wrap around to p2 12 pits + 1 store
+    # [2, 2, 0, 2, 10, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr2 game over
+    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(2, 3))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr1 invalid pit num
+    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(1, 9))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 game has not ended
+    # [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+    # [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
+    # print(game.return_winner())
+    # game.print_board()
+
+
+
+
+
+
+
+    # =======
+
+
+    # game = Mancala()
+    # player1 = game.create_player("Lily")
+    # player2 = game.create_player("Lucy")
+    # print(game.play_game(1, 3))
     # game.play_game(1, 1)
     # game.play_game(2, 3)
     # game.play_game(2, 4)
