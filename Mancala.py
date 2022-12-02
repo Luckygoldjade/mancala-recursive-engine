@@ -42,7 +42,7 @@ class Mancala:
                             cannot access Mancala methods and members
     """
     def __init__(self):
-        self._board_lst = [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 2, 0]
+        self._board_lst = [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
         self._player_1_board_lst = [1, 2, 3, 4, 5, 6]       # constant
         self._player_2_board_lst = [8, 9, 10, 11, 12, 13]   # constant
         self._player_1_store_num = 7                        # constant
