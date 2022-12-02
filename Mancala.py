@@ -190,7 +190,7 @@ class Mancala:
                         # Special rule 2
                         # add opponent's opposite pit to your store
                         self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
-                                                                    self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num+2)]
+                                                                    self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num)]
                         # empty opponent's opposite pit
                         self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num+2)] = 0
 
@@ -260,7 +260,7 @@ class Mancala:
                         # add opponent's opposite pit to your store
                         self._board_lst[self._player_2_store_num - 1] = self._board_lst[self._player_2_store_num - 1] + \
                                                                         self._board_lst[
-                                                                            self.oppo_plyr_2_pit_num(next_pit_num + 2)]
+                                                                            self.oppo_plyr_2_pit_num(next_pit_num)]
                         # empty opponent's opposite pit
                         self._board_lst[self.oppo_plyr_2_pit_num(next_pit_num + 2)] = 0
 
@@ -635,14 +635,14 @@ def main():
     player1 = game.create_player("Lily")
     player2 = game.create_player("Lucy")
     print(game.play_game(1, 3))
-    # game.play_game(1, 1)
-    # game.play_game(2, 3)
-    # game.play_game(2, 4)
-    # game.play_game(1, 2)
-    # game.play_game(2, 2)
-    # game.play_game(1, 1)
-    # game.print_board()
-    # print(game.return_winner())
+    print(game.play_game(1, 1))
+    print(game.play_game(2, 3))
+    print(game.play_game(2, 4))
+    print(game.play_game(1, 2))
+    print(game.play_game(2, 2))
+    print(game.play_game(1, 1))
+    game.print_board()
+    print(game.return_winner())
 
 
 
