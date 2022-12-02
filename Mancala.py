@@ -183,7 +183,7 @@ class Mancala:
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
                     print("player 1 take another turn")
-                    return
+                    return self._board_lst
 
                 elif next_pit_num in self._player_1_board_lst:  # player 1 pits
                     if self._board_lst[next_pit_num - 1] == 0:
@@ -200,14 +200,14 @@ class Mancala:
 
 
 
-                        return
+                        return self._board_lst
                     elif self._board_lst[next_pit_num - 1] >= 1:
                         if next_pit_num == 14:                  # p1 skips p2 store
                             next_pit_num = 1
                         # board index is always pos-1
                         self._board_lst[pos - 1] -= 1
                         self._board_lst[next_pit_num - 1] += 1
-                        return
+                        return self._board_lst
 
 
                 elif next_pit_num in self._player_2_board_lst or \
@@ -218,7 +218,7 @@ class Mancala:
                     # board index is always pos-1
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
-                    return
+                    return self._board_lst
 
             # seed count = 1 (last seed) end
 
@@ -226,7 +226,7 @@ class Mancala:
             # seed count <= 0 (0 seed) start
             elif self._board_lst[pos-1] <= 0:
                 # do nothing. get next turn
-                return
+                return self._board_lst
 
             # seed count <= 0 (0 seed) end
 
@@ -252,7 +252,7 @@ class Mancala:
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
                     print("player 2 take another turn")
-                    return
+                    return self._board_lst
 
                 elif next_pit_num in self._player_2_board_lst:  # player 2 pits
                     if self._board_lst[next_pit_num - 1] == 0:
@@ -268,14 +268,14 @@ class Mancala:
                         self._board_lst[pos - 1] -= 1
                         self._board_lst[self._player_2_store_num - 1] += 1
 
-                        return
+                        return self._board_lst
                     elif self._board_lst[next_pit_num - 1] >= 1:
                         if next_pit_num == 7:                      # p2 skips p1 store
                             next_pit_num += 1
                         # board index is always pos-1
                         self._board_lst[pos - 1] -= 1
                         self._board_lst[next_pit_num - 1] += 1
-                        return
+                        return self._board_lst
 
 
                 elif next_pit_num in self._player_1_board_lst or \
@@ -286,20 +286,20 @@ class Mancala:
                     # board index is always pos-1
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
-                    return
+                    return self._board_lst
 
             # seed count = 1 (last seed) end
 
             # seed count <= 0 (0 seed) start
             elif self._board_lst[pos - 1] <= 0:
                 # do nothing. get next turn
-                return
+                return self._board_lst
 
             # seed count <= 0 (0 seed) end
 
         # --
         next_pit_num += 1
-        self.play_game_rec(player_index_num, next_pit_num, pos)
+        return self.play_game_rec(player_index_num, next_pit_num, pos)
 
 
 # --
@@ -455,13 +455,13 @@ def main():
     #
     # --
     # -- test
-    game = Mancala()
-    player1 = game.create_player("Lily")
-    player2 = game.create_player("Lucy")
+    #game = Mancala()
+    #player1 = game.create_player("Lily")
+    #player2 = game.create_player("Lucy")
     #print(type(player1))
     #print(player1)
-    game.print_board()
-    game.print_class_Mancala()
+    #game.print_board()
+    #game.print_class_Mancala()
 
     #plyr1 default
     #[2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0]
@@ -555,10 +555,10 @@ def main():
 
     # plyr2 SR 1
     # [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 1, 0]
-    game.play_game(2, 6)
-    game.play_game(2, 6)
-    game.print_board()
-    game.print_class_Mancala()
+    # game.play_game(2, 6)
+    # game.play_game(2, 6)
+    # game.print_board()
+    # game.print_class_Mancala()
 
     # plyr1 SR 1
     # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
@@ -631,10 +631,10 @@ def main():
     # =======
 
 
-    # game = Mancala()
-    # player1 = game.create_player("Lily")
-    # player2 = game.create_player("Lucy")
-    # print(game.play_game(1, 3))
+    game = Mancala()
+    player1 = game.create_player("Lily")
+    player2 = game.create_player("Lucy")
+    print(game.play_game(1, 3))
     # game.play_game(1, 1)
     # game.play_game(2, 3)
     # game.play_game(2, 4)
@@ -642,7 +642,7 @@ def main():
     # game.play_game(2, 2)
     # game.play_game(1, 1)
     # game.print_board()
-    #print(game.return_winner())
+    # print(game.return_winner())
 
 
 
