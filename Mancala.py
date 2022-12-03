@@ -190,17 +190,16 @@ class Mancala:
                         # Special rule 2
                         # add opponent's opposite pit to your store
                         self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
-                                                                    self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num)]
+                                                                    self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num)-1]
                         # empty opponent's opposite pit
-                        self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num+2)] = 0
+                        self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num)-1] = 0
 
                         # add last seed to your store not to pit
                         self._board_lst[pos - 1] -= 1
                         self._board_lst[self._player_1_store_num - 1] += 1
 
-
-
                         return self._board_lst
+
                     elif self._board_lst[next_pit_num - 1] >= 1:
                         if next_pit_num == 14:                  # p1 skips p2 store
                             next_pit_num = 1
@@ -210,8 +209,7 @@ class Mancala:
                         return self._board_lst
 
 
-                elif next_pit_num in self._player_2_board_lst or \
-                        next_pit_num == self._player_2_store_num:   # player 2 pits and store
+                elif next_pit_num in self._player_2_board_lst:   # player 2 pits
                     #if self._board_lst[next_pit_num - 1] >= 1:
                     if next_pit_num == 14:                      # p1 skips p2 store
                         next_pit_num = 1
@@ -219,6 +217,51 @@ class Mancala:
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
                     return self._board_lst
+
+
+                elif next_pit_num == self._player_2_store_num:   # player 2 store
+                    #if self._board_lst[next_pit_num - 1] >= 1:
+                    if next_pit_num == 14:                      # p1 skips p2 store
+                        next_pit_num = 1
+
+
+
+                    if next_pit_num in self._player_1_board_lst:  # player 1 pits
+                        if self._board_lst[next_pit_num - 1] == 0:
+                            # Special rule 2
+                            # add opponent's opposite pit to your store
+                            self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
+                                                                            self._board_lst[
+                                                                                self.oppo_plyr_1_pit_num(next_pit_num)-1]
+                            # empty opponent's opposite pit
+                            self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num)-1] = 0
+
+                            # add last seed to your store not to pit
+                            self._board_lst[pos - 1] -= 1
+                            self._board_lst[self._player_1_store_num - 1] += 1
+
+                            return self._board_lst
+
+                        elif self._board_lst[next_pit_num - 1] >= 1:
+                            if next_pit_num == 14:  # p1 skips p2 store
+                                next_pit_num = 1
+                            # board index is always pos-1
+                            self._board_lst[pos - 1] -= 1
+                            self._board_lst[next_pit_num - 1] += 1
+                            return self._board_lst
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             # seed count = 1 (last seed) end
 
@@ -230,6 +273,7 @@ class Mancala:
 
             # seed count <= 0 (0 seed) end
 
+        # =======
         # player 2
         if player_index_num == 2:
             # --
@@ -258,11 +302,11 @@ class Mancala:
                     if self._board_lst[next_pit_num - 1] == 0:
                         # Special rule 2
                         # add opponent's opposite pit to your store
-                        self._board_lst[self._player_2_store_num - 1] = self._board_lst[self._player_2_store_num - 1] + \
+                        self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
                                                                         self._board_lst[
-                                                                            self.oppo_plyr_2_pit_num(next_pit_num)]
+                                                                            self.oppo_plyr_2_pit_num(next_pit_num)-1]
                         # empty opponent's opposite pit
-                        self._board_lst[self.oppo_plyr_2_pit_num(next_pit_num + 2)] = 0
+                        self._board_lst[self.oppo_plyr_2_pit_num(next_pit_num)-1] = 0
 
                         # add last seed to your store not to pit
                         self._board_lst[pos - 1] -= 1
@@ -279,7 +323,7 @@ class Mancala:
 
 
                 elif next_pit_num in self._player_1_board_lst or \
-                        next_pit_num == self._player_1_store_num:  # player 1 pits and store
+                        next_pit_num == self._player_1_store_num:  # player 1 pits
                     # if self._board_lst[next_pit_num - 1] >= 1:
                     if next_pit_num == 7:                          # p2 skips p1 store
                         next_pit_num += 1
@@ -287,6 +331,46 @@ class Mancala:
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
                     return self._board_lst
+
+
+
+
+
+                elif next_pit_num == self._player_1_store_num:  # player 1 store
+                    # if self._board_lst[next_pit_num - 1] >= 1:
+                    if next_pit_num == 7:                          # p2 skips p1 store
+                        next_pit_num += 1
+
+
+
+                    if next_pit_num in self._player_2_board_lst:  # player 2 pits
+                        if self._board_lst[next_pit_num - 1] == 0:
+                            # Special rule 2
+                            # add opponent's opposite pit to your store
+                            self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
+                                                                            self._board_lst[
+                                                                                self.oppo_plyr_2_pit_num(next_pit_num)-1]
+                            # empty opponent's opposite pit
+                            self._board_lst[self.oppo_plyr_2_pit_num(next_pit_num)-1] = 0
+
+                            # add last seed to your store not to pit
+                            self._board_lst[pos - 1] -= 1
+                            self._board_lst[self._player_2_store_num - 1] += 1
+
+                            return self._board_lst
+                        elif self._board_lst[next_pit_num - 1] >= 1:
+                            if next_pit_num == 7:                      # p2 skips p1 store
+                                next_pit_num += 1
+                            # board index is always pos-1
+                            self._board_lst[pos - 1] -= 1
+                            self._board_lst[next_pit_num - 1] += 1
+                            return self._board_lst
+
+
+
+
+
+
 
             # seed count = 1 (last seed) end
 
@@ -333,14 +417,20 @@ class Mancala:
 
         if player_1_all_pits_empty == True or player_2_all_pits_empty == True:
             # add up all the seeds in pits and store for each player
-            player_1_score = 0
-            player_2_score = 0
-            for pit_cnt1 in range(1, 8):
-                player_1_score = player_1_score + self._board_lst[pit_cnt1-1]
+            # move seeds from pits to store
+            # player 1
+            for pit_cnt1 in range(1, 7):
+                self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
+                                                              self._board_lst[pit_cnt1-1]
+                self._board_lst[pit_cnt1-1] = 0         # clear pit
+            # player 2
+            for pit_cnt1 in range(8, 14):
+                self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
+                                                              self._board_lst[pit_cnt1-1]
+                self._board_lst[pit_cnt1-1] = 0         # clear pit
 
-            for pit_cnt1 in range(8, 15):
-                player_2_score = player_2_score + self._board_lst[pit_cnt1-1]
-
+            player_1_score = self._board_lst[self._player_1_store_num-1]
+            player_2_score = self._board_lst[self._player_2_store_num-1]
             if player_1_score > player_2_score:
                 return "Winner is player 1: "
             elif player_1_score < player_2_score:
@@ -381,17 +471,17 @@ class Mancala:
         returns: player 2 pit number opposite to player 1 pit number
         """
         # p1 pit6 -> p2 pit1
-        if player2_pit_num == 1:        # p2 pit 8
+        if player2_pit_num == 8:        # p2 pit 8
             return 6
-        elif player2_pit_num == 2:
+        elif player2_pit_num == 9:
             return 5
-        elif player2_pit_num == 3:
+        elif player2_pit_num == 10:
             return 4
-        elif player2_pit_num == 4:
+        elif player2_pit_num == 11:
             return 3
-        elif player2_pit_num == 5:
+        elif player2_pit_num == 12:
             return 2
-        elif player2_pit_num == 6:
+        elif player2_pit_num == 13:
             return 1
 
 
@@ -455,9 +545,10 @@ def main():
     #
     # --
     # -- test
-    #game = Mancala()
-    #player1 = game.create_player("Lily")
-    #player2 = game.create_player("Lucy")
+    # [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
+    # game = Mancala()
+    # player1 = game.create_player("Lily")
+    # player2 = game.create_player("Lucy")
     #print(type(player1))
     #print(player1)
     #game.print_board()
@@ -573,11 +664,11 @@ def main():
     # game.print_class_Mancala()
 
 
-    # plyr1 SR 2
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 1)
-    # game.play_game(1, 1)
-    # game.print_board()
+    # plyr2 SR 2
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 2, 0]
+    #print(game.play_game(2, 1))
+    # game.play_game(2, 1)
+    #game.print_board()
     # game.print_class_Mancala()
 
     # plyr1 SR 2
@@ -616,7 +707,13 @@ def main():
     # game.print_board()
     # game.print_class_Mancala()
 
-    # plyr1 game has not ended
+    # plyr2 game has not ended
+    # [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+    # [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
+    # print(game.return_winner())
+    # game.print_board()
+
+    # ply2 game has ended
     # [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
     # [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
     # print(game.return_winner())
@@ -627,39 +724,39 @@ def main():
 
 
 
-
     # =======
 
 
-    game = Mancala()
-    player1 = game.create_player("Lily")
-    player2 = game.create_player("Lucy")
-    print(game.play_game(1, 3))
-    print(game.play_game(1, 1))
-    print(game.play_game(2, 3))
-    print(game.play_game(2, 4))
-    print(game.play_game(1, 2))
-    print(game.play_game(2, 2))
-    print(game.play_game(1, 1))
-    game.print_board()
-    print(game.return_winner())
+    # game = Mancala()
+    # player1 = game.create_player("Lily")
+    # player2 = game.create_player("Lucy")
+    # print(game.play_game(1, 3))
+    # print(game.play_game(1, 1))
+    # print(game.play_game(2, 3))
+    # print(game.play_game(2, 4))
+    # print(game.play_game(1, 2))
+    # print(game.play_game(2, 2))
+    # print(game.play_game(1, 1))
+    # game.print_board()
+    # print(game.return_winner())
 
 
 
 
     # --
     # -- test
-    # game = Mancala()
-    # playerl = game.create_player("Lily")
-    # player2 = game.create_player("Lucy")
-    # game.play_game(1, 1)
-    # game.play_game(1, 2)
-    # game.play_game(1, 3)
-    # game.play_game(1, 4)
-    # game.play_game(1, 5)
-    # game.play_game(1, 6)
-    # game.print_board()
-    # print(game.return_winner())
+    game = Mancala()
+    playerl = game.create_player("Lily")
+    player2 = game.create_player("Lucy")
+    print(game.play_game(1, 1))
+    print(game.play_game(1, 2))
+    print(game.play_game(1, 3))
+    print(game.play_game(1, 4))
+    print(game.play_game(1, 5))
+    print(game.play_game(1, 6))
+    game.print_board()
+    print(game.return_winner())
+    game.print_board()
 
 
 
