@@ -76,34 +76,6 @@ class Mancala:
         player_2_pits_lst = []
 
 
-        # --
-        # game over when one player pits are all empty
-        # check both players
-        player_1_all_pits_empty = True
-        for pit_cnt1 in range(1, 7):
-            if self._board_lst[pit_cnt1-1] != 0:
-                player_1_all_pits_empty = False
-
-        player_2_all_pits_empty = True
-        for pit_cnt1 in range(8, 14):
-            if self._board_lst[pit_cnt1-1] != 0:
-                player_2_all_pits_empty = False
-
-        if player_1_all_pits_empty == True or player_2_all_pits_empty == True:
-
-            # clear pits and put in store
-            # add up all the seeds in pits and store for each player
-            # move seeds from pits to store
-            # player 1
-            for pit_cnt1 in range(1, 7):
-                self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
-                                                              self._board_lst[pit_cnt1-1]
-                self._board_lst[pit_cnt1-1] = 0         # clear pit
-            # player 2
-            for pit_cnt1 in range(8, 14):
-                self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
-                                                              self._board_lst[pit_cnt1-1]
-                self._board_lst[pit_cnt1-1] = 0         # clear pit
 
 
 
@@ -290,6 +262,7 @@ class Mancala:
                             self._board_lst[pos - 1] -= 1
                             self._board_lst[self._player_1_store_num - 1] += 1
 
+                            self.board_after_win()  # test
                             return self._board_lst
 
                         elif self._board_lst[next_pit_num - 1] >= 1:
@@ -299,19 +272,6 @@ class Mancala:
                             self._board_lst[pos - 1] -= 1
                             self._board_lst[next_pit_num - 1] += 1
                             return self._board_lst
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             # seed count = 1 (last seed) end
 
@@ -514,7 +474,38 @@ class Mancala:
             return 1
 
 
+    def board_after_win(self):
+        """
 
+        """
+        # --
+        # game over when one player pits are all empty
+        # check both players
+        player_1_all_pits_empty = True
+        for pit_cnt1 in range(1, 7):
+            if self._board_lst[pit_cnt1-1] != 0:
+                player_1_all_pits_empty = False
+
+        player_2_all_pits_empty = True
+        for pit_cnt1 in range(8, 14):
+            if self._board_lst[pit_cnt1-1] != 0:
+                player_2_all_pits_empty = False
+
+        if player_1_all_pits_empty == True or player_2_all_pits_empty == True:
+
+            # clear pits and put in store
+            # add up all the seeds in pits and store for each player
+            # move seeds from pits to store
+            # player 1
+            for pit_cnt1 in range(1, 7):
+                self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
+                                                              self._board_lst[pit_cnt1-1]
+                self._board_lst[pit_cnt1-1] = 0         # clear pit
+            # player 2
+            for pit_cnt1 in range(8, 14):
+                self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
+                                                              self._board_lst[pit_cnt1-1]
+                self._board_lst[pit_cnt1-1] = 0         # clear pit
 
 
 
