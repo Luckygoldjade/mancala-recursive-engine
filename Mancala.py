@@ -1,7 +1,7 @@
 # Project Portfolio
 # Author: Tony Chan
 # GitHub username: Luckygoldjade
-# Date: 12/2/22
+# Date: 12/4/22
 # Description: Mancala game.
 #
 #
@@ -47,7 +47,7 @@ class Mancala:
         self._player_2_board_lst = [8, 9, 10, 11, 12, 13]   # constant
         self._player_1_store_num = 7                        # constant
         self._player_2_store_num = 14                       # constant
-
+        self._player = None
 
 
     def print_class_Mancala(self):
@@ -75,6 +75,39 @@ class Mancala:
         player_1_pits_lst = []
         player_2_pits_lst = []
 
+
+        # --
+        # game over when one player pits are all empty
+        # check both players
+        player_1_all_pits_empty = True
+        for pit_cnt1 in range(1, 7):
+            if self._board_lst[pit_cnt1-1] != 0:
+                player_1_all_pits_empty = False
+
+        player_2_all_pits_empty = True
+        for pit_cnt1 in range(8, 14):
+            if self._board_lst[pit_cnt1-1] != 0:
+                player_2_all_pits_empty = False
+
+        if player_1_all_pits_empty == True or player_2_all_pits_empty == True:
+
+            # clear pits and put in store
+            # add up all the seeds in pits and store for each player
+            # move seeds from pits to store
+            # player 1
+            for pit_cnt1 in range(1, 7):
+                self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
+                                                              self._board_lst[pit_cnt1-1]
+                self._board_lst[pit_cnt1-1] = 0         # clear pit
+            # player 2
+            for pit_cnt1 in range(8, 14):
+                self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
+                                                              self._board_lst[pit_cnt1-1]
+                self._board_lst[pit_cnt1-1] = 0         # clear pit
+
+
+
+
         print("player1:")
         print("store:", self._board_lst[self._player_1_store_num-1])
         # print player 1 pit 1 to 6
@@ -97,8 +130,8 @@ class Mancala:
         Parameters: one parameter for name
         Return: player instance object
         """
-        player = Player(player_name)
-        return player
+        self._player = Player(player_name)
+        return self._player
 
 # --
     def play_game(self, player_index_num, pos):
@@ -156,7 +189,24 @@ class Mancala:
                 player_2_all_pits_empty = False
 
         if player_1_all_pits_empty == True or player_2_all_pits_empty == True:
+
+            # clear pits and put in store
+            # add up all the seeds in pits and store for each player
+            # move seeds from pits to store
+            # player 1
+            for pit_cnt1 in range(1, 7):
+                self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
+                                                              self._board_lst[pit_cnt1-1]
+                self._board_lst[pit_cnt1-1] = 0         # clear pit
+            # player 2
+            for pit_cnt1 in range(8, 14):
+                self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
+                                                              self._board_lst[pit_cnt1-1]
+                self._board_lst[pit_cnt1-1] = 0         # clear pit
+
             return "Game is ended"
+
+
 
 
         # player 1
@@ -366,12 +416,6 @@ class Mancala:
                             self._board_lst[next_pit_num - 1] += 1
                             return self._board_lst
 
-
-
-
-
-
-
             # seed count = 1 (last seed) end
 
             # seed count <= 0 (0 seed) start
@@ -414,29 +458,14 @@ class Mancala:
         if player_1_all_pits_empty == False and player_2_all_pits_empty == False:
             return "Game has not ended"
 
-
-        if player_1_all_pits_empty == True or player_2_all_pits_empty == True:
-            # add up all the seeds in pits and store for each player
-            # move seeds from pits to store
-            # player 1
-            for pit_cnt1 in range(1, 7):
-                self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
-                                                              self._board_lst[pit_cnt1-1]
-                self._board_lst[pit_cnt1-1] = 0         # clear pit
-            # player 2
-            for pit_cnt1 in range(8, 14):
-                self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
-                                                              self._board_lst[pit_cnt1-1]
-                self._board_lst[pit_cnt1-1] = 0         # clear pit
-
-            player_1_score = self._board_lst[self._player_1_store_num-1]
-            player_2_score = self._board_lst[self._player_2_store_num-1]
-            if player_1_score > player_2_score:
-                return "Winner is player 1: "
-            elif player_1_score < player_2_score:
-                return "Winner is player 2: "
-            elif player_1_score == player_2_score:
-                return "It's a tie"
+        player_1_score = self._board_lst[self._player_1_store_num-1]
+        player_2_score = self._board_lst[self._player_2_store_num-1]
+        if player_1_score > player_2_score:
+            return "Winner is player 1: " + self._player._player_name
+        elif player_1_score < player_2_score:
+            return "Winner is player 2: " + self._player._player_name
+        elif player_1_score == player_2_score:
+            return "It's a tie"
 
 
 
@@ -501,7 +530,7 @@ class Player:
                         Player class cannot access Mancala methods or members
     """
     def __init__(self, player_name):
-        self.player_name = player_name
+        self._player_name = player_name
 
 
 
@@ -756,12 +785,26 @@ def main():
     print(game.play_game(1, 6))
     game.print_board()
     print(game.return_winner())
+
     game.print_board()
 
 
 
     # --
     # -- test
+    # game = Mancala()
+    # playerl = game.create_player("Lily")
+    # player2 = game.create_player("Lucy")
+    # print(game.play_game(2, 1))
+    # print(game.play_game(2, 2))
+    # print(game.play_game(2, 3))
+    # print(game.play_game(2, 4))
+    # print(game.play_game(2, 5))
+    # print(game.play_game(2, 6))
+    # game.print_board()
+    # print(game.return_winner())
+
+    # game.print_board()
 
 
 
