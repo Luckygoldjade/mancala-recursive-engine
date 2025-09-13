@@ -1,8 +1,14 @@
 # Academic project completed in Fall 2022
 
+Text-based Mancala engine in Python — demonstrates recursion by sowing one seed at a time with clean OOP game logic.
+
+---
+
 ## Project Title: Mancala Recursive Engine
 
-A Python-based implementation of the classic two-player board game **Mancala**, designed as a text-based interface with recursive logic and private object-oriented state. The project focuses on implementing game mechanics such as sowing seeds, capturing, extra turns, and determining the winner using recursive logic and Python class design.
+A Python-based implementation of the classic two-player board game Mancala, designed as a text-based interface with recursive logic and private object-oriented state.
+
+I consciously chose recursion as the core technique to model seed-sowing. Each move in Mancala is like a courier dropping seeds one by one around a circular board. Recursion mirrors this process: drop one seed, move forward, and recurse until no seeds remain. This “count down one seed at a time” mental model made the logic intuitive, while also giving me practice with recursive function design — a skill often emphasized in software interviews.
 
 This project was completed as part of an academic course and demonstrates the use of recursion, private data members, and custom class design in Python.
 
@@ -10,7 +16,8 @@ This project was completed as part of an academic course and demonstrates the us
 
 ## Key Features
 
-- **Recursive turn logic:** Implements extra turn and capture rules using recursion.
+- **Recursive sowing logic:** Implements the game’s core mechanic by dropping one seed at a time via recursion, until the move is complete.
+- **Recursive turn resolution:** Handles special cases (extra turns and captures) through recursive calls that continue or hand off play as rules dictate.
 - **Object-Oriented Programming:** Includes a `Mancala` class with private data members and helper methods.
 - **Custom Player Class:** Players are created using a separate method and tracked throughout the game.
 - **Board Management:** Pits and stores for both players are updated in real time using list-based storage.
@@ -37,7 +44,7 @@ This project was completed as part of an academic course and demonstrates the us
    cd mancala-recursive-engine
 
 2. **Run the Game**
-
+    ```bash
     python Mancala.py
 
 
