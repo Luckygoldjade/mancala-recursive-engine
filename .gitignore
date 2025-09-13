@@ -1,0 +1,36 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# --- Visual Studio 2022 ---
+.vs/
+.vscode/
+*.user
+*.suo
+*.vcxproj.user
+*.VC.db
+*.VC.VC.opendb
+ipch/
+*.obj
+*.exe
+*.pdb
+*.dll
+*.lib
+*.pyproj.user
+
+# onenote files
+*.one
+*.onetoc2
+
+# help files
+help/
+
+# cheat sheet files
+cheatsheets/
