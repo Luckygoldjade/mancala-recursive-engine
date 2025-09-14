@@ -47,7 +47,8 @@ class Mancala:
         self._player_2_board_lst = [8, 9, 10, 11, 12, 13]   # constant
         self._player_1_store_num = 7                        # constant
         self._player_2_store_num = 14                       # constant
-        self._player = None
+        self._player1 = None
+        self._player2 = None
 
 
     def print_class_Mancala(self):
@@ -75,6 +76,8 @@ class Mancala:
         player_1_pits_lst = []
         player_2_pits_lst = []
 
+        print("\n")
+        print("==== Current Board Status ====")
         print("player1:")
         print("store:", self._board_lst[self._player_1_store_num-1])
         # print player 1 pit 1 to 6
@@ -90,15 +93,20 @@ class Mancala:
             player_2_pits_lst.append(self._board_lst[pit_cnt1-1])
 
         print(player_2_pits_lst)
+        print("==== End Board Status ====")
 
-    def create_player(self, player_name):
+    def create_player(self, player_name, player_num=1):
         """
         Purpose: Create player instance with name member
-        Parameters: one parameter for name
+        Parameters: player_name (str), player_num (1 or 2)
         Return: player instance object
         """
-        self._player = Player(player_name)
-        return self._player
+        player = Player(player_name)
+        if player_num == 1:
+            self._player1 = player
+        elif player_num == 2:
+            self._player2 = player
+        return player
 
 # --
     def play_game(self, player_index_num, pos):
@@ -417,9 +425,11 @@ class Mancala:
         player_1_score = self._board_lst[self._player_1_store_num-1]
         player_2_score = self._board_lst[self._player_2_store_num-1]
         if player_1_score > player_2_score:
-            return "Winner is player 1: " + self._player._player_name
+            winner_name = self._player1._player_name if self._player1 else "Player 1"
+            return "Winner is player 1: " + winner_name
         elif player_1_score < player_2_score:
-            return "Winner is player 2: " + self._player._player_name
+            winner_name = self._player2._player_name if self._player2 else "Player 2"
+            return "Winner is player 2: " + winner_name
         elif player_1_score == player_2_score:
             return "It's a tie"
 
@@ -446,6 +456,8 @@ class Mancala:
             return 9
         elif player1_pit_num == 6:
             return 8
+        else:
+            raise ValueError(f"Invalid player1_pit_num: {player1_pit_num}. Must be 1-6.")
 
 
 # --
@@ -468,6 +480,8 @@ class Mancala:
             return 2
         elif player2_pit_num == 13:
             return 1
+        else:
+            raise ValueError(f"Invalid player2_pit_num: {player2_pit_num}. Must be 8-13.")
 
 
     def board_after_win(self):
@@ -763,6 +777,8 @@ def main():
     # --
     # -- test
     game = Mancala()
+    game.print_board()
+    game.print_class_Mancala
     playerl = game.create_player("Lily")
     player2 = game.create_player("Lucy")
     print(game.play_game(1, 1))
@@ -772,6 +788,7 @@ def main():
     print(game.play_game(1, 5))
     print(game.play_game(1, 6))
     game.print_board()
+    game.print_class_Mancala()
     print(game.return_winner())
 
     game.print_board()
