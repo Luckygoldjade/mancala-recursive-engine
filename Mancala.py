@@ -533,3 +533,281 @@ def get_player_name(self):
     return self._player_name
 
 
+# =======
+# Function Definition
+# --
+
+
+
+
+
+
+
+
+
+
+
+
+
+# --
+# main start
+def main():
+    """
+
+    """
+    # --
+    # Class Instantiation
+    # --
+    # user Input and Output
+    #
+    # --
+    # -- test
+    # [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
+    # game = Mancala()
+    # player1 = game.create_player("Lily")
+    # player2 = game.create_player("Lucy")
+    #print(type(player1))
+    #print(player1)
+    #game.print_board()
+    #game.print_class_Mancala()
+
+    #plyr1 default
+    #[2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(1, 2))
+    # game.print_board()
+
+
+
+
+
+    # plyr1 SR 1
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 6)
+    # game.play_game(1, 6)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 SR 1
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 select empty pit
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 3)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr1 SR 2
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 1)
+    # game.play_game(1, 1)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 SR 2
+    # plyr1 wrap around to p2 12 pits + 1 store
+    # [2, 2, 0, 2, 11, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+
+
+    # plyr1 add seeds to p2 pits
+    # [2, 2, 0, 2, 4, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 wrap around to p2 12 pits + 1 store
+    # [2, 2, 0, 2, 10, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr1 game over
+    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(1, 3))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr1 invalid pit num
+    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(1, 9))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 game has not ended
+    # [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+    # [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
+    # print(game.return_winner())
+    # game.print_board()
+
+
+
+    # =======
+
+
+    # --
+    #plyr2 default
+    #[2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(2, 5))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr2 SR 1
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 1, 0]
+    # game.play_game(2, 6)
+    # game.play_game(2, 6)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 SR 1
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 select empty pit
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 3)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr2 SR 2
+    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 2, 0]
+    #print(game.play_game(2, 1))
+    # game.play_game(2, 1)
+    #game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 SR 2
+    # plyr1 wrap around to p2 12 pits + 1 store
+    # [2, 2, 0, 2, 11, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+
+
+    # plyr1 add seeds to p2 pits
+    # [2, 2, 0, 2, 4, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr1 wrap around to p2 12 pits + 1 store
+    # [2, 2, 0, 2, 10, 1, 0, 2, 2, 2, 2, 2, 2, 0]
+    # game.play_game(1, 5)
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr2 game over
+    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(2, 3))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+
+    # plyr1 invalid pit num
+    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
+    # print(game.play_game(1, 9))
+    # game.print_board()
+    # game.print_class_Mancala()
+
+    # plyr2 game has not ended
+    # [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+    # [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
+    # print(game.return_winner())
+    # game.print_board()
+
+    # ply2 game has ended
+    # [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+    # [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
+    # print(game.return_winner())
+    # game.print_board()
+
+
+
+
+
+
+    # =======
+
+
+    # game = Mancala()
+    # player1 = game.create_player("Lily")
+    # player2 = game.create_player("Lucy")
+    # print(game.play_game(1, 3))
+    # print(game.play_game(1, 1))
+    # print(game.play_game(2, 3))
+    # print(game.play_game(2, 4))
+    # print(game.play_game(1, 2))
+    # print(game.play_game(2, 2))
+    # print(game.play_game(1, 1))
+    # game.print_board()
+    # print(game.return_winner())
+
+
+
+
+    # --
+    # -- test
+    game = Mancala()
+    playerl = game.create_player("Lily")
+    player2 = game.create_player("Lucy")
+    print(game.play_game(1, 1))
+    print(game.play_game(1, 2))
+    print(game.play_game(1, 3))
+    print(game.play_game(1, 4))
+    print(game.play_game(1, 5))
+    print(game.play_game(1, 6))
+    game.print_board()
+    print(game.return_winner())
+
+    game.print_board()
+
+
+
+    # --
+    # -- test
+    # game = Mancala()
+    # playerl = game.create_player("Lily")
+    # player2 = game.create_player("Lucy")
+    # print(game.play_game(2, 1))
+    # print(game.play_game(2, 2))
+    # print(game.play_game(2, 3))
+    # print(game.play_game(2, 4))
+    # print(game.play_game(2, 5))
+    # print(game.play_game(2, 6))
+    # game.print_board()
+    # print(game.return_winner())
+
+    # game.print_board()
+
+
+
+    # --
+    # -- test
+
+
+
+    # --
+    # -- test
+
+
+
+
+    # --
+    # end main
+if __name__ == '__main__':
+    main()
