@@ -69,31 +69,37 @@ class Mancala:
 
     def print_board(self):
         """
-        Purpose: Print the status and board for both players
-        Parameters: None
-        Return: Print the status and board for both players
+        Purpose: Print the status and board for both players in a visually clear and beginner-friendly way
         """
-        player_1_pits_lst = []
-        player_2_pits_lst = []
-
-        print("\n")
-        print("==== Current Board Status ====")
-        print("player1:")
-        print("store:", self._board_lst[self._player_1_store_num-1])
-        # print player 1 pit 1 to 6
-        for pit_cnt1 in range(1, 7):
-            player_1_pits_lst.append(self._board_lst[pit_cnt1-1])
-
-        print(player_1_pits_lst)
-
-        print("player2:")
-        print("store:", self._board_lst[self._player_2_store_num-1])
-        # print player 2 pit 8 to 13
-        for pit_cnt1 in range(8, 14):
-            player_2_pits_lst.append(self._board_lst[pit_cnt1-1])
-
-        print(player_2_pits_lst)
-        print("==== End Board Status ====")
+        player_1_pits = [self._board_lst[i] for i in range(6)]
+        player_2_pits = [self._board_lst[i] for i in range(7, 13)]
+        store1 = self._board_lst[self._player_1_store_num-1]
+        store2 = self._board_lst[self._player_2_store_num-1]
+        print()
+        print("================ MANCALA BOARD ================")
+        print("This is the current state of the board:")
+        print()
+        if self._player2 is not None:
+            print("Player 2 (" + str(self._player2._player_name) + ") side:")
+        else:
+            print("Player 2 side:")
+        print("  Store:", store2)
+        print("  Pits:  ", end="")
+        for pit in reversed(player_2_pits):
+            print(str(pit), end="  ")
+        print()
+        print("-----------------------------------------------")
+        print("           ", end="")
+        for pit in player_1_pits:
+            print(str(pit), end="  ")
+        print()
+        if self._player1 is not None:
+            print("Player 1 (" + str(self._player1._player_name) + ") side:")
+        else:
+            print("Player 1 side:")
+        print("  Store:", store1)
+        print("===============================================")
+        print()
 
     def create_player(self, player_name, player_num=1):
         """
@@ -132,11 +138,25 @@ class Mancala:
 
         # check for valid pit index number
         if pos > 6 or pos <= 0:
+            print()
+            print("Oops! You tried to pick pit number " + str(pos) + ".")
+            print("Please select a pit between 1 and 6.")
+            print()
             return "Invalid number for pit index"
 
 
         if player_index_num == 2:
             pos = pos + 7
+        if player_index_num == 1:
+            if self._player1 is not None:
+                print("Player 1 (" + str(self._player1._player_name) + ") is making a move from pit " + str(pos) + ".")
+            else:
+                print("Player 1 is making a move from pit " + str(pos) + ".")
+        else:
+            if self._player2 is not None:
+                print("Player 2 (" + str(self._player2._player_name) + ") is making a move from pit " + str(pos-7) + ".")
+            else:
+                print("Player 2 is making a move from pit " + str(pos-7) + ".")
 
         next_pit_num = pos
         next_pit_num += 1
@@ -207,13 +227,25 @@ class Mancala:
                     # board index is always pos-1
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
-                    print("player 1 take another turn")
+                    print()
+                    print("Special Event!")
+                    if self._player1 is not None:
+                        print("Player 1 (" + str(self._player1._player_name) + ") gets another turn!")
+                    else:
+                        print("Player 1 gets another turn!")
+                    print()
                     return self._board_lst
 
                 elif next_pit_num in self._player_1_board_lst:  # player 1 pits
                     if self._board_lst[next_pit_num - 1] == 0:
                         # Special rule 2
-                        # add opponent's opposite pit to your store
+                        print()
+                        print("Special Event!")
+                        if self._player1 is not None:
+                            print("Player 1 (" + str(self._player1._player_name) + ") captures seeds from Player 2!")
+                        else:
+                            print("Player 1 captures seeds from Player 2!")
+                        print()
                         self._board_lst[self._player_1_store_num-1] = self._board_lst[self._player_1_store_num-1] + \
                                                                     self._board_lst[self.oppo_plyr_1_pit_num(next_pit_num)-1]
                         # empty opponent's opposite pit
@@ -308,13 +340,25 @@ class Mancala:
                     # board index is always pos-1
                     self._board_lst[pos - 1] -= 1
                     self._board_lst[next_pit_num - 1] += 1
-                    print("player 2 take another turn")
+                    print()
+                    print("Special Event!")
+                    if self._player2 is not None:
+                        print("Player 2 (" + str(self._player2._player_name) + ") gets another turn!")
+                    else:
+                        print("Player 2 gets another turn!")
+                    print()
                     return self._board_lst
 
                 elif next_pit_num in self._player_2_board_lst:  # player 2 pits
                     if self._board_lst[next_pit_num - 1] == 0:
                         # Special rule 2
-                        # add opponent's opposite pit to your store
+                        print()
+                        print("Special Event!")
+                        if self._player2 is not None:
+                            print("Player 2 (" + str(self._player2._player_name) + ") captures seeds from Player 1!")
+                        else:
+                            print("Player 2 captures seeds from Player 1!")
+                        print()
                         self._board_lst[self._player_2_store_num-1] = self._board_lst[self._player_2_store_num-1] + \
                                                                         self._board_lst[
                                                                             self.oppo_plyr_2_pit_num(next_pit_num)-1]
@@ -586,127 +630,42 @@ def main():
     #game.print_class_Mancala()
 
     #plyr1 default
-    #[2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0]
-    # print(game.play_game(1, 2))
-    # game.print_board()
+    # === Screenshot 1: Game Start ===
+    print()
+    print("================ WELCOME TO MANCALA! ================")
+    print("Welcome to the classic game of Mancala!")
+    print("Your goal is to collect as many seeds in your store as possible.")
+    print("Player 1: Lily   Player 2: Lucy")
+    print("Let's begin! Good luck to both players!")
+    print("====================================================")
+    print()
+    game = Mancala()
+    player1 = game.create_player("Lily", 1)
+    player2 = game.create_player("Lucy", 2)
+    game.print_board()
 
+    # === Screenshot 2: Player 1 Move ===
+    print("It's Player 1's turn. Lily will make a move from pit 3.")
+    game.play_game(1, 3)
+    game.print_board()
 
+    # === Screenshot 3: Player 2 Move ===
+    print("Now it's Player 2's turn. Lucy will make a move from pit 4.")
+    game.play_game(2, 4)
+    game.print_board()
 
+    # === Screenshot 4: Special Event (Player 1 gets another turn or capture) ===
+    print("Watch for a special event! Lily (Player 1) will make a move from pit 6.")
+    game.play_game(1, 6)
+    game.print_board()
 
-
-    # plyr1 SR 1
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 6)
-    # game.play_game(1, 6)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr1 SR 1
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 5)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr1 select empty pit
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 3)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-
-    # plyr1 SR 2
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 1)
-    # game.play_game(1, 1)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr1 SR 2
-    # plyr1 wrap around to p2 12 pits + 1 store
-    # [2, 2, 0, 2, 11, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 5)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-
-
-
-    # plyr1 add seeds to p2 pits
-    # [2, 2, 0, 2, 4, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 5)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr1 wrap around to p2 12 pits + 1 store
-    # [2, 2, 0, 2, 10, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 5)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-
-    # plyr1 game over
-    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
-    # print(game.play_game(1, 3))
-    # game.print_board()
-    # game.print_class_Mancala()
-
-
-    # plyr1 invalid pit num
-    # [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0]
-    # print(game.play_game(1, 9))
-    # game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr1 game has not ended
-    # [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
-    # [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
-    # print(game.return_winner())
-    # game.print_board()
-
-
-
-    # =======
-
-
-    # --
-    #plyr2 default
-    #[2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0]
-    # print(game.play_game(2, 5))
-    # game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr2 SR 1
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 1, 0]
-    # game.play_game(2, 6)
-    # game.play_game(2, 6)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr1 SR 1
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 5)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr1 select empty pit
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 3)
-    # game.print_board()
-    # game.print_class_Mancala()
-
-
-    # plyr2 SR 2
-    # [2, 2, 0, 2, 2, 1, 0, 2, 2, 0, 2, 2, 2, 0]
-    #print(game.play_game(2, 1))
-    # game.play_game(2, 1)
-    #game.print_board()
-    # game.print_class_Mancala()
-
-    # plyr1 SR 2
-    # plyr1 wrap around to p2 12 pits + 1 store
-    # [2, 2, 0, 2, 11, 1, 0, 2, 2, 2, 2, 2, 2, 0]
-    # game.play_game(1, 5)
-    # game.print_board()
+    # === Screenshot 5: Game Over ===
+    print("Let's fast-forward to the end of the game for demonstration.")
+    # Manually set up a nearly finished board for screenshot
+    game._board_lst = [0, 0, 0, 0, 0, 1, 20, 0, 0, 0, 0, 0, 1, 18]
+    game.print_board()
+    print("Game over! Let's see who won.")
+    print(game.return_winner())
     # game.print_class_Mancala()
 
 
