@@ -53,9 +53,19 @@ This project was completed as part of an academic course and demonstrates the us
 
 ---
 
+## Documents
+
+<p align="center"> <img src="docs/mancala_rules.pdf" alt="Mancala Rules" width="700"/> </p>
+
+---
+
 ## Screenshots
 
 Below are screenshots from the terminal demo showing key parts of the game logic in action.
 
-<p align="center"> <img src="docs/screenshots/demo_01.png" alt="Player 1 extra turn" width="700"/> </p> 
-<p align="center"> <img src="docs/screenshots/demo_02.png" alt="Final board and winner" width="700"/> </p>
+<p align="center"> <img src="docs/screenshots/mancala_board.png" alt="Mancala Board" width="700"/> </p>
+<p align="center"> <img src="docs/screenshots/1_Game_Start.png" alt="Game Start" width="700"/> </p> 
+<p align="center"> <img src="docs/screenshots/2_Player_Move.png" alt="Display a player making a move" width="700"/> </p>
+<p align="center"> <img src="docs/screenshots/3_Second_Player_Move.png" alt="Show the other player 2 making a move" width="700"/> </p>
+<p align="center"> <img src="docs/screenshots/4_Special_Moment.png" alt="Capture an extra turn moment" width="700"/> </p>
+<p align="center"> <img src="docs/screenshots/5_Game_Over.png" alt="Show the final board, winner announcement, and a thank you message" width="700"/> </p>
